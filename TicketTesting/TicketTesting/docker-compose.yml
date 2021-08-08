@@ -1,0 +1,31 @@
+version: '2'
+services:
+  tickettesting:
+    container_name: 'tickettesting_dev'
+    build:
+      dockerfile: Dockerfile-dev
+      context: .
+      args:
+        APP_ENV: Development
+    ports:
+      - "8256:8080"
+    depends_on:
+      - "tickettesting_postgres"
+    links:
+      - tickettesting_postgres:tickettesting_postgres
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    entrypoint:
+      - bash 
+      - ./run-dev.bash
+    network_mode: bridge
+  tickettesting_postgres:
+    container_name: 'tickettesting_postgres'
+    image: postgres:10.11
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=tickettesting
+    network_mode: bridge
