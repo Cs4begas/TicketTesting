@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="create-table ticket" author="P" >
+		<createTable tableName="ticket" schemaName="tickettesting">
+			<column name="id" type="INT" autoIncrement="true" remarks="Id ของ ticket">
+				<constraints primaryKey="true"></constraints>
+			</column>
+			<column name="title" type="TEXT" remarks="หัวข้อ ticket">
+				<constraints nullable="false"/>
+			</column>
+			<column name="description" type="TEXT" remarks="คำอธิบายของ ticket">
+				<constraints nullable="false"/>
+			</column>
+			<column name="email_contact" type="TEXT" remarks="email ที่ใช้ contact (contact_information)"></column>
+			<column name="status_id" type="INT" remarks="status ของ ticket"></column>
+			<column name="created_at" type="timestamp" remarks="เวลาที่ create ticket" defaultValueComputed="now()"></column>
+			<column name="created_by" type="INT" remarks="userId คนที่สร้าง ticket ไหม"></column>
+			<column name="updated_at" type="timestamp" remarks="เวลาที่ update ล่าสุด">
+				<constraints nullable="true"/>
+			</column>
+			<column name="updated_by" type="INT" remarks="userId ของคน update ล่าสุด">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="create-log_ticket" author="P" >
+		<createTable tableName="log_ticket" schemaName="tickettesting">
+			<column name="id" type="INT" autoIncrement="true" remarks="Id ของ log_ticket">
+				<constraints primaryKey="true"></constraints>
+			</column>
+			<column name="title" type="TEXT" remarks="หัวข้อ ticket">
+				<constraints nullable="false"/>
+			</column>
+			<column name="description" type="TEXT" remarks="คำอธิบายของ ticket">
+				<constraints nullable="false"/>
+			</column>
+			<column name="email_contact" type="TEXT" remarks="email ที่ใช้ contact (contact_information)"></column>
+			<column name="status_id" type="INT" remarks="status ของ ticket"></column>
+			<column name="created_at" type="timestamp" remarks="เวลาที่ create ticket" defaultValueComputed="now()">"</column>
+			<column name="created_by" type="INT" remarks="userId คนที่สร้าง ticket ไหม"></column>
+			<column name="ticket_id" type="INT" remarks="id ของ ticket_id">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="create-ticket_status" author="P" >
+		<createTable tableName="ticket_status" schemaName="tickettesting">
+			<column name="id" type="INT" autoIncrement="true" remarks="Id ของ ticket_status">
+				<constraints primaryKey="true"></constraints>
+			</column>
+			<column name="description" type="TEXT" remarks="คำอธิบายของ ticket_status">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="migration-ticket_status" author="P" >
+		<sql>
+			<![CDATA[
+				INSERT INTO tickettesting.ticket_status
+				(description)
+				VALUES('pending');
+				INSERT INTO tickettesting.ticket_status
+				(description)
+				VALUES('accepted');
+				INSERT INTO tickettesting.ticket_status
+				(description)
+				VALUES('resolved');
+				INSERT INTO tickettesting.ticket_status
+				(description)
+				VALUES('rejected');	
+			]]>
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="add-foreignkey-ticket-system" author="P" >
+		<addForeignKeyConstraint
+			  baseColumnNames="status_id"
+			  baseTableName="ticket"
+			  baseTableSchemaName="tickettesting"
+			  constraintName="fk_ticket_status"
+			  referencedColumnNames="id"
+			  referencedTableName="ticket_status"
+			  referencedTableSchemaName="tickettesting"/>
+		<addForeignKeyConstraint
+			  baseColumnNames="ticket_id"
+			  baseTableName="log_ticket"
+			  baseTableSchemaName="tickettesting"
+			  onDelete="CASCADE"
+			  constraintName="fk_ticket_id"
+			  referencedColumnNames="id"
+			  referencedTableName="ticket"
+			  referencedTableSchemaName="tickettesting"/>
+		<addForeignKeyConstraint
+			  baseColumnNames="status_id"
+			  baseTableName="log_ticket"
+			  baseTableSchemaName="tickettesting"
+			  constraintName="fk_ticket_status"
+			  referencedColumnNames="id"
+			  referencedTableName="ticket_status"
+			  referencedTableSchemaName="tickettesting"/>
+	</changeSet>
+</databaseChangeLog>

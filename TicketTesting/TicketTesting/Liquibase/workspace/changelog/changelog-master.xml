@@ -7,8 +7,5 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
   
-  <include file="changelog/changelog-healthcheck.xml"></include>
-  <include file="changelog/202108/changelog-2021-08-02-create-booking_config.xml"></include>
-  <include file="changelog/202108/changelog-2021-08-03-create-campaign.xml"></include>
-  <include file="changelog/202108/changelog-2021-08-04-create-otp.xml"></include>
+  <include file="changelog/migration/changelog-create-ticket.xml"></include>
 </databaseChangeLog>
