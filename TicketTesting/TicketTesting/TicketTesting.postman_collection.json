@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "fef36469-da66-46f3-aafd-f963d84d767e",
+		"name": "TicketTesting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Ticket",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"พี\",\r\n    \"description\": \"พีอธิบาย\",\r\n    \"emailContact\": \"nattapan@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8256/api/ticket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8256",
+					"path": [
+						"api",
+						"ticket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Ticket",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "userId",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"status\":\"accepted\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8256/api/ticket/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8256",
+					"path": [
+						"api",
+						"ticket",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ticket",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8256/api/tickets?status=accepted",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8256",
+					"path": [
+						"api",
+						"tickets"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "accepted"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
