@@ -16,6 +16,10 @@ using Newtonsoft.Json.Serialization;
 using TicketTesting.Repository;
 using TicketTesting.Business;
 using TicketTesting.Handler;
+using Swashbuckle.Swagger;
+using System.IO;
+using System;
+using System.Reflection;
 
 namespace TicketTesting
 {
@@ -47,6 +51,14 @@ namespace TicketTesting
             services.AddScoped<TicketContext>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<TicketBusiness>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Tickets API", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +68,11 @@ namespace TicketTesting
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 

@@ -13,23 +13,29 @@ namespace TicketTesting.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [ScaffoldColumn(true)]
+        [JsonIgnore]
         [Column("id")]
         public int id { get; set; }
         [Column("title")]
         public string title { get; set; }
         [Column("description")]
         public string description { get; set; }
+        [EmailAddress(ErrorMessage = "กรุณากรอก format email")]
         [Column("email_contact")]
         public string emailContact { get; set; }
         [Column("status_id")]
         public int statusId { get; set; }
+        [JsonIgnore]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("created_at")]
         public DateTime createdAt { get; set; }
+        [JsonIgnore]
         [Column("created_by")]
         public int createdBy { get; set; }
+        [JsonIgnore]
         [Column("updated_at")]
         public DateTime? updatedAt { get; set; }
+        [JsonIgnore]
         [Column("updated_by")]
         public int? updatedBy { get; set; }
         [JsonIgnore]
